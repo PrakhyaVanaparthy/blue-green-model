@@ -44,7 +44,8 @@ pipeline{
         stage('Rollout Staging Changes') {
             steps{
                 withAWS(region:'ap-southeast-2',credentials:'aws-static') {
-                    sh 'kubectl rolling-update staging --image=sushmasri/capstonerepository:latest'
+                    sh 'kubectl set image sushmasri/capstonerepository:latest www=image:v2'
+                    sh 'kubectl rollout status deployment [ushmasri/capstonerepository:latest]'
                 }
             }
         }
