@@ -35,6 +35,7 @@ pipeline{
         stage('Create Staging Controller') {
             steps{
                 withAWS(region:'ap-southeast-2',credentials:'aws-static') {
+                    sh pwd
                     sh 'kubectl apply -f ./staging-controller.json'
 
                 }
