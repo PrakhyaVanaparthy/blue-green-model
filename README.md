@@ -13,28 +13,28 @@ Once you have your Jenkins and AWS environments setup you will need to first run
 
 ## Branches
 ### Master:
-Lint HTML
-Build Docker Image
-Push Docker Image
-Set Kubectl Context to Cluster
+-Lint HTML
+-Build Docker Image
+-Push Docker Image
+-Set Kubectl Context to Cluster
 
 ### Blue:
-Lint HTML
-Build Docker Image
-Push Docker Image
-Set Kubectl Context to Cluster
-Create Blue Controller
-Create Green Controller
-Create Blue-Green service
+-Lint HTML
+-Build Docker Image
+-Push Docker Image
+-Set Kubectl Context to Cluster
+-Create Blue Controller
+-Create Green Controller
+-Create Blue-Green service
 
 ### Green:
-Lint HTML
-Build Docker Image
-Push Docker Image
-Set Kubectl Context to Cluster
-Create Blue Controller
-Create Green Controller
-Create Blue-Green service
+-Lint HTML
+-Build Docker Image
+-Push Docker Image
+-Set Kubectl Context to Cluster
+-Create Blue Controller
+-Create Green Controller
+-Create Blue-Green service
 
 ## Pipeline stages
 
