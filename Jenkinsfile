@@ -31,48 +31,6 @@ pipeline{
                 sh 'kubectl config use-context arn:aws:eks:ap-southeast-2:984760320768:cluster/capstonecluster'
             }
         }
-
-        stage('Create Staging Controller') {
-            steps{
-                withAWS(region:'ap-southeast-2',credentials:'aws-static') {
-               
-                    sh 'kubectl apply -f ./staging-controller.json'
-
-                }
-            }
-        }
-        stage('Rollout Staging Changes') {
-            steps{
-                withAWS(region:'ap-southeast-2',credentials:'aws-static') {
-                    sh 'kubectl set --image=adamsteff/capstonerepository:latest'
-                    sh 'kubectl rollout status deployment [ --image=adamsteff/capstonerepository:latest]'
-                    
-                }
-            }
-        }
-        stage('Create Staging service') {
-            steps{
-                withAWS(region:'ap-southeast-2',credentials:'aws-static') {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
-                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                        sh 'kubectl apply -f ./staging-service.json'
-                        sh 'kubectl get pods'
-                        sh 'kubectl describe service staginglb'
-                    }
-                }
-            }
-        }
-        stage('Deploy to Production?') {
-              when {
-                expression { env.BRANCH_NAME != 'master' }
-              }
-
-              steps {
-                milestone(1)
-                input 'Deploy to Production?'
-                milestone(2)
-              }
-        }
         stage('Create Blue Controller') {
             when {
                 expression { env.BRANCH_NAME == 'blue' }
@@ -95,26 +53,7 @@ pipeline{
                 }
             }
         }
-        stage('Rollout Blue Changes') {
-            when {
-                expression { env.BRANCH_NAME == 'blue' }
-            }
-            steps{
-                withAWS(region:'ap-southeast-2',credentials:'aws-static') {
-                    sh 'kubectl rolling-update blueversion --image=sushmasri/capstonerepository:latest'
-                }
-            }
-        }
-        stage('Rollout Green Changes') {
-            when {
-                expression { env.BRANCH_NAME == 'green' }
-            }
-            steps{
-                withAWS(region:'ap-southeast-2',credentials:'aws-static') {
-                     sh 'kubectl rolling-update greenversion --image=sushmasri/capstonerepository:latest'
-                }
-            }
-        }
+        
         stage('Create Blue-Green service') {
             when {
                 expression { env.BRANCH_NAME != 'master' }
