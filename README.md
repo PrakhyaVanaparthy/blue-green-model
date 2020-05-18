@@ -1,4 +1,4 @@
-# blue-green-deployement model
+# blue-green-deployment model
 
 ## Project Overview
 In this project we need to work in aws to acheive the following:
